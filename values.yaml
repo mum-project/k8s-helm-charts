@@ -2,20 +2,27 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-replicaCount: 1
+  
+mumReplicaCount: 1
 
-image:
+
+mumImage:
   repository: mumproject/mum
   tag: latest
   pullPolicy: IfNotPresent
 
-imagePullSecrets: []
-nameOverride: ""
-fullnameOverride: ""
+mariadbImage:
+  repository: mariadb
+  tag: latest
+  pullPolicy: IfNotPresent
 
-service:
+mumService:
   type: ClusterIP
   port: 80
+
+mariadbService:
+  type: ClusterIP
+  port: 3306
 
 ingress:
   enabled: false

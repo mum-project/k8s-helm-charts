@@ -1,9 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mum-deployment-{{ include "k8-helm-charts.fullname" . }}
+  name: mariadb-deployment-{{ include "k8-helm-charts.fullname" . }}
 spec:
-  replicas: {{ .Values.mumReplicaCount }}
+  replicas: {{ .Values.mariadbReplicaCount }}
   selector:
     matchLabels:
       app.kubernetes.io/name: {{ include "k8-helm-charts.name" . }}
@@ -15,10 +15,13 @@ spec:
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
       containers:
-        - name: mum-{{ .Chart.Name }}
-          image: "{{ .Values.mumImage.repository }}:{{ .Values.mumImage.tag }}"
-          imagePullPolicy: {{ .Values.mumImage.pullPolicy }}
+        - name: mariadb-{{ .Chart.Name }}
+          image: "{{ .Values.mariadbImage.repository }}:{{ .Values.mariadbImage.tag }}"
+          imagePullPolicy: {{ .Values.mariadbImage.pullPolicy }}
+          env:
+          - name: MYSQL_ROOT_PASSWORD
+            value: "secret"
           ports:
             - name: http
-              containerPort: 8080
+              containerPort: 3306
               protocol: TCP
