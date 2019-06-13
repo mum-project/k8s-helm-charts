@@ -20,7 +20,25 @@ spec:
           imagePullPolicy: {{ .Values.mariadbImage.pullPolicy }}
           env:
           - name: MYSQL_ROOT_PASSWORD
-            value: "secret"
+            valueFrom:
+              secretKeyRef:
+                name: secrets
+                key: db_root_password
+          - name: MYSQL_DATABASE
+            valueFrom: 
+              secretKeyRef:
+                name: secrets
+                key: db_database
+          - name: MYSQL_USER
+            valueFrom: 
+              secretKeyRef:
+                name: secrets
+                key: db_username
+          - name: MYSQL_PASSWORD
+            valueFrom: 
+              secretKeyRef:
+                name: secrets
+                key: db_password   
           ports:
             - name: http
               containerPort: 3306
