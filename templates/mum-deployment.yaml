@@ -15,10 +15,149 @@ spec:
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
       containers:
-        - name: mum-{{ .Chart.Name }}
-          image: "{{ .Values.mumImage.repository }}:{{ .Values.mumImage.tag }}"
-          imagePullPolicy: {{ .Values.mumImage.pullPolicy }}
-          ports:
-            - name: http
-              containerPort: 8080
-              protocol: TCP
+      - name: mum-{{ .Chart.Name }}
+        image: "{{ .Values.mumImage.repository }}:{{ .Values.mumImage.tag }}"
+        imagePullPolicy: {{ .Values.mumImage.pullPolicy }}
+        env:
+        - name: "APP_NAME"
+          valueFrom:
+            secretKeyRef:
+              name: secrets
+              key: app_name
+        - name: "APP_ENV"
+          valueFrom:
+            secretKeyRef:
+              name: secrets
+              key: app_env
+        - name: "APP_DEBUG"
+          valueFrom:
+            secretKeyRef:
+              name: secrets
+              key: app_debug
+        - name: "APP_URL"
+          valueFrom:
+            secretKeyRef:
+              name: secrets
+              key: app_url
+        - name: "TIMEZONE"
+          valueFrom:
+            secretKeyRef:
+              name: secrets
+              key: timezone
+        - name: "LOG_CHANNEL"
+          valueFrom:
+            secretKeyRef:
+              name: secrets
+              key: log_channel
+        - name: "DB_CONNECTION"
+          valueFrom:
+            secretKeyRef:
+              name: secrets
+              key: db_connection
+        - name: "DB_HOST"
+          value: 'mariadb-service.default.svc.cluster.local'
+        - name: "DB_PORT"
+          valueFrom:
+            secretKeyRef:
+              name: secrets
+              key: db_port
+        - name: "DB_DATABASE"
+          valueFrom:
+            secretKeyRef:
+              name: secrets
+              key: db_database
+        - name: "DB_USERNAME"
+          valueFrom:
+            secretKeyRef:
+              name: secrets
+              key: db_username
+        - name: "DB_PASSWORD"
+          valueFrom:
+            secretKeyRef:
+              name: secrets
+              key: db_password
+        - name: "BROADCAST_DRIVER"
+          valueFrom:
+            secretKeyRef:
+              name: secrets
+              key: broadcast_driver
+        - name: "CACHE_DRIVER"
+          valueFrom:
+            secretKeyRef:
+              name: secrets
+              key: cache_driver
+        - name: "SESSION_DRIVER"
+          valueFrom:
+            secretKeyRef:
+              name: secrets
+              key: session_driver
+        - name: "SESSION_LIFETIME"
+          valueFrom:
+            secretKeyRef:
+              name: secrets
+              key: session_lifetime
+        - name: "QUEUE_DRIVER"
+          valueFrom:
+            secretKeyRef:
+              name: secrets
+              key: queue_driver
+        - name: "MAIL_DRIVER"
+          valueFrom:
+            secretKeyRef:
+              name: secrets
+              key: mail_driver
+        - name: "MAIL_PORT"
+          valueFrom:
+            secretKeyRef:
+              name: secrets
+              key: mail_port
+        - name: "SMTP_HOSTNAME"
+          valueFrom:
+            secretKeyRef:
+              name: secrets
+              key: smtp_hostname
+        - name: "SMTP_PORT"
+          valueFrom:
+            secretKeyRef:
+              name: secrets
+              key: smtp_port
+        - name: "SMTP_SSL"
+          valueFrom:
+            secretKeyRef:
+              name: secrets
+              key: smtp_ssl
+        - name: "IMAP_HOSTNAME"
+          valueFrom:
+            secretKeyRef:
+              name: secrets
+              key: imap_hostname
+        - name: "IMAP_PORT"
+          valueFrom:
+            secretKeyRef:
+              name: secrets
+              key: imap_port
+        - name: "IMAP_SSL"
+          valueFrom:
+            secretKeyRef:
+              name: secrets
+              key: imap_ssl
+        - name: "POP3_HOSTNAME"
+          valueFrom:
+            secretKeyRef:
+              name: secrets
+              key: pop3_hostname
+        - name: "POP3_PORT"
+          valueFrom:
+            secretKeyRef:
+              name: secrets
+              key: pop3_port
+        - name: "POP3_SSL"
+          valueFrom:
+            secretKeyRef:
+              name: secrets
+              key: pop3_ssl
+        ports:
+          - name: http
+            containerPort: 8080
+            protocol: TCP
+        
