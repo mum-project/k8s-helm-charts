@@ -2,27 +2,35 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-  
+#### MARIADB
+
+mariadbDockerImage:
+  repository: mariadb
+  tag: latest
+  pullPolicy: IfNotPresent
+
+mariadbService:
+  type: ClusterIP
+  port: 3306
+
+#### MUM 
+
 mumReplicaCount: 1
 
-
-mumImage:
+mumDockerImage:
   repository: mumproject/mum
   tag: latest
   pullPolicy: IfNotPresent
 
-mariadbImage:
-  repository: mariadb
-  tag: latest
-  pullPolicy: IfNotPresent
+mumImagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
 
 mumService:
   type: ClusterIP
   port: 80
 
-mariadbService:
-  type: ClusterIP
-  port: 3306
+#### INGRESS
 
 ingress:
   enabled: false
@@ -32,26 +40,3 @@ ingress:
   hosts:
     - host: chart-example.local
       paths: []
-
-  tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
-
-resources: {}
-  # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
-
-nodeSelector: {}
-
-tolerations: []
-
-affinity: {}
