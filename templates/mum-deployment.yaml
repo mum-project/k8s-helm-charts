@@ -60,7 +60,8 @@ spec:
                 secretKeyRef:
                   name: secrets
                   key: db_connection
-            
+            - name: "DB_HOST"
+              value: 'mariadb-service.default.svc.cluster.local'
             - name: "DB_PORT"
               valueFrom:
                 secretKeyRef:
