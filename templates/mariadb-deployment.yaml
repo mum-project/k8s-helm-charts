@@ -16,8 +16,8 @@ spec:
     spec:
       containers:
         - name: mariadb-{{ .Chart.Name }}
-          image: "{{ .Values.mariadbImage.repository }}:{{ .Values.mariadbImage.tag }}"
-          imagePullPolicy: {{ .Values.mariadbImage.pullPolicy }}
+          image: "{{ .Values.mariadbDockerImage.repository }}:{{ .Values.mariadbDockerImage.tag }}"
+          imagePullPolicy: {{ .Values.mariadbDockerImage.pullPolicy }}
           env:
           - name: MYSQL_ROOT_PASSWORD
             valueFrom:
