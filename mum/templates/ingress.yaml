@@ -1,9 +1,8 @@
 {{- if .Values.ingress.enabled -}}
-{{- $fullName := include "mum.fullname" . -}}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: {{ $fullName }}
+  name: "mum-ingress"
   labels:
 {{ include "mum.labels" . | indent 4 }}
   {{- with .Values.ingress.annotations }}
@@ -29,8 +28,8 @@ spec:
         {{- range .paths }}
           - path: {{ . }}
             backend:
-              serviceName: {{ $fullName }}
-              servicePort: http
+              serviceName: "mum-service"
+              servicePort: 8080
         {{- end }}
   {{- end }}
 {{- end }}

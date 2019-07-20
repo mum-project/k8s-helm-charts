@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: "{{ include "mum.fullname" . }}-test-connection"
+  name: "mum-service-test-connection"
   labels:
 {{ include "mum.labels" . | indent 4 }}
   annotations:
@@ -11,5 +11,5 @@ spec:
     - name: wget
       image: busybox
       command: ['wget']
-      args:  ['{{ include "mum.fullname" . }}:{{ .Values.service.port }}']
+      args:  ['"mum-service":{{ .Values.mum.service.port }}']
   restartPolicy: Never

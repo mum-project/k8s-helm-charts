@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: "mum-service"
+  labels:
+{{ include "mum.labels" . | indent 4 }}
+spec:
+  type: {{ .Values.mum.service.type }}
+  ports:
+    - port: {{ .Values.mum.service.port }}
+      targetPort: 8080
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: "mum-service"
+    app.kubernetes.io/instance: {{ .Release.Name }}
