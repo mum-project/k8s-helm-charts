@@ -1,34 +1,34 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: "mum-deployment"
+  name: "{{ .Release.Name }}-mum-deployment"
   labels:
-    app.kubernetes.io/name: "mum-deployment"
+    app.kubernetes.io/name: "{{ .Release.Name }}-mum-deployment"
 {{ include "mum.labels" . | indent 4 }}
 spec:
   replicas: {{ .Values.mum.deployment.replicaCount }}
   selector:
     matchLabels: 
-      app.kubernetes.io/name: "mum-deployment"
+      app.kubernetes.io/name: "{{ .Release.Name }}-mum-deployment"
       app.kubernetes.io/instance: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: "mum-deployment"
+        app.kubernetes.io/name: "{{ .Release.Name }}-mum-deployment"
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
       containers:
-      - name: "mum-deployment"
+      - name: "{{ .Release.Name }}-mum-deployment"
         image: "{{ .Values.mum.deployment.image.repository }}:{{ .Values.mum.deployment.image.tag }}"
         imagePullPolicy: {{ .Values.mum.deployment.image.pullPolicy }}
         ports:
         - { name: http, containerPort: {{ .Values.mum.deployment.container.port }}, protocol: TCP }
         env:
-        - { name: "APP_KEY", value: "base64:dGVzdA==" }
+        - { name: "APP_KEY", valueFrom: { secretKeyRef: { name: "mum-secret", key: "app-key" }} }
         - { name: "DB_HOST", value: {{ printf "%s-%s" .Release.Name "mariadb" }} }
         - { name: "DB_DATABASE", value: {{ .Values.mariadb.db.name }} }
         - { name: "DB_USERNAME", value: {{ .Values.mariadb.db.user }} }
-        - { name: "DB_PASSWORD", value: {{ .Values.mariadb.db.password }} }
+        - { name: "DB_PASSWORD", valueFrom: { secretKeyRef: { name: "db-secret", key: "mariadb-password" }} }
         livenessProbe:
           httpGet:
             path: /

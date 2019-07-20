@@ -1,15 +1,15 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: "mum-service"
+  name: "{{ .Release.Name }}-mum-service"
   labels:
 {{ include "mum.labels" . | indent 4 }}
 spec:
   type: {{ .Values.mum.service.type }}
   ports:
     - port: {{ .Values.mum.service.port }}
-      targetPort: 8080
+      targetPort: {{ .Values.mum.deployment.container.port }}
       protocol: TCP
   selector:
-    app.kubernetes.io/name: "mum-deployment"
+    app.kubernetes.io/name: "{{ .Release.Name }}-mum-deployment"
     app.kubernetes.io/instance: {{ .Release.Name }}

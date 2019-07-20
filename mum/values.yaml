@@ -41,21 +41,13 @@ mariadb:
   replication:
     enabled: false
 
+  existingSecret: 'db-secret'
   ## Create a database and a database user
   ## ref: https://github.com/bitnami/bitnami-docker-mariadb/blob/master/README.md#creating-a-database-user-on-first-run
   ##
   db:
     name: mum
     user: mum
-    ## If the password is not specified, mariadb will generates a random password
-    ##
-    password: mum
-
-  ## MariaDB admin password
-  ## ref: https://github.com/bitnami/bitnami-docker-mariadb/blob/master/README.md#setting-the-root-password-on-first-run
-  ##
-  # rootUser:
-  #   password:
 
   ## Enable persistence using Persistent Volume Claims
   ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/

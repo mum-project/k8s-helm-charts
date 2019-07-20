@@ -2,7 +2,7 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: "mum-ingress"
+  name: "{{ .Release.Name }}-ingress"
   labels:
 {{ include "mum.labels" . | indent 4 }}
   {{- with .Values.ingress.annotations }}
@@ -25,6 +25,6 @@ spec:
         paths:
           - path: "/"
             backend:
-              serviceName: "mum-service"
-              servicePort: 8080
+              serviceName: "{{ .Release.Name }}-mum-service"
+              servicePort: {{ .Values.mum.service.port }}
 {{- end }}
