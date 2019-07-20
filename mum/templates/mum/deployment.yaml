@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: "mum-deployment"
   labels:
-    app.kubernetes.io/name: "mum-service"
+    app.kubernetes.io/name: "mum-deployment"
 {{ include "mum.labels" . | indent 4 }}
 spec:
   replicas: {{ .Values.mum.deployment.replicaCount }}

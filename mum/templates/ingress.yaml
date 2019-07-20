@@ -21,15 +21,10 @@ spec:
   {{- end }}
 {{- end }}
   rules:
-  {{- range .Values.ingress.hosts }}
-    - host: {{ .host | quote }}
-      http:
+    - http:
         paths:
-        {{- range .paths }}
-          - path: {{ . }}
+          - path: "/"
             backend:
               serviceName: "mum-service"
               servicePort: 8080
-        {{- end }}
-  {{- end }}
 {{- end }}

@@ -11,5 +11,5 @@ spec:
       targetPort: 8080
       protocol: TCP
   selector:
-    app.kubernetes.io/name: "mum-service"
+    app.kubernetes.io/name: "mum-deployment"
     app.kubernetes.io/instance: {{ .Release.Name }}
