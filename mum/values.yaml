@@ -2,6 +2,8 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+namespace: default
+
 ingress:
   enabled: true
   annotations:
@@ -28,6 +30,22 @@ mum:
     name: mum-service
     type: ClusterIP
     port: 8080
+
+postfix:
+  deployment:
+    name: postfix-deployment
+    replicaCount: 1
+    image:
+      repository: postfix
+      tag: latest
+      pullPolicy: Never
+    container:
+      hostname: "example.local"
+      port: 25
+  service:
+    name: postfix-service
+    type: ClusterIP
+    port: 25
 
 ##
 ## MariaDB chart configuration
