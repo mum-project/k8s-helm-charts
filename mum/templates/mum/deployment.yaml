@@ -29,6 +29,9 @@ spec:
         - { name: "DB_DATABASE", value: {{ .Values.mariadb.db.name }} }
         - { name: "DB_USERNAME", value: {{ .Values.mariadb.db.user }} }
         - { name: "DB_PASSWORD", valueFrom: { secretKeyRef: { name: "db-secret", key: "mariadb-password" }} }
+        envFrom:
+        - configMapRef:
+            name: mum-config
         livenessProbe:
           httpGet:
             path: /
