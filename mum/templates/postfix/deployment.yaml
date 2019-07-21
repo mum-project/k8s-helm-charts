@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ .Release.Name }}-postfix-deployment"
+  namespace: {{ .Values.namespace | quote }}
+  labels:
+    app.kubernetes.io/name: "{{ .Release.Name }}-postfix-deployment"
+{{ include "mum.labels" . | indent 4 }}
+spec:
+  replicas: {{ .Values.postfix.deployment.replicaCount }}
+  selector:
+    matchLabels: 
+      app.kubernetes.io/name: "{{ .Release.Name }}-postfix-deployment"
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: "{{ .Release.Name }}-postfix-deployment"
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      containers:
+      - name: "{{ .Release.Name }}-postfix-deployment"
+        image: "{{ .Values.postfix.deployment.image.repository }}:{{ .Values.postfix.deployment.image.tag }}"
+        imagePullPolicy: {{ .Values.postfix.deployment.image.pullPolicy }}
+        ports:
+        - { name: smtp, containerPort: {{ .Values.postfix.deployment.container.port }}, protocol: TCP }
+        env:
+        - { name: "HOSTNAME", value: {{ .Values.postfix.deployment.container.hostname }} }
+        - { name: "DB_HOST", value: {{ printf "%s-%s" .Release.Name "mariadb" }} }
+        - { name: "DB_NAME", value: {{ .Values.mariadb.db.name }} }
+        - { name: "DB_USER", value: {{ .Values.mariadb.db.user }} }
+        - { name: "DB_PASSWORD", valueFrom: { secretKeyRef: { name: "db-secret", key: "mariadb-password" }} }
+        - { name: "DOVECOT_HOST", value: {{ printf "%s-%s" .Release.Name "mum-service" }} }
+        readinessProbe:
+          tcpSocket:
+            port: smtp
+            initialDelaySeconds: 5
+            periodSeconds: 10
+        livenessProbe:
+          tcpSocket:
+            port: smtp
+            initialDelaySeconds: 15
+            periodSeconds: 20

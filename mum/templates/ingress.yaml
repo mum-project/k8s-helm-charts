@@ -3,6 +3,7 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: "{{ .Release.Name }}-ingress"
+  namespace: {{ .Values.namespace | quote }}
   labels:
 {{ include "mum.labels" . | indent 4 }}
   {{- with .Values.ingress.annotations }}

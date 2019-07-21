@@ -2,6 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: "{{ .Release.Name }}-mum-service"
+  namespace: {{ .Values.namespace | quote }}
   labels:
 {{ include "mum.labels" . | indent 4 }}
 spec:

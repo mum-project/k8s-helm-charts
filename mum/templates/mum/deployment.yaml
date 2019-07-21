@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: "{{ .Release.Name }}-mum-deployment"
+  namespace: {{ .Values.namespace | quote }}
   labels:
     app.kubernetes.io/name: "{{ .Release.Name }}-mum-deployment"
 {{ include "mum.labels" . | indent 4 }}
