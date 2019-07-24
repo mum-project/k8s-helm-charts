@@ -1,12 +1,13 @@
 # MUM Kubernetes Helm Chart
 
-This chart will deploy a complete email server setup consisting of these
-components:
+This chart will deploy a complete email server setup to 
+[Kubernetes](https://kubernetes.io/) using [Helm-Charts](https://helm.sh/) 
+using these components:
 
-- Postfix
-- Dovecot
-- MariaDB
-- MUM
+- [Postfix](http://www.postfix.org/)
+- [Dovecot](https://www.dovecot.org/)
+- [MariaDB](https://mariadb.org/)
+- [MUM](https://mum-project.github.io/docs/)
 
 ## ️️⚠️ ATTENTION 🧨
 
