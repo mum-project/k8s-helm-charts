@@ -6,9 +6,9 @@ metadata:
   namespace: default
 data:
   APP_NAME: "MUM"
-  APP_ENV: "local"
-  APP_DEBUG: "true"
-  APP_URL: "http://localhost"
+  APP_ENV: "production"
+  APP_DEBUG: "false"
+  APP_URL: "http://192.168.99.100"
   TIMEZONE: "Europe/Berlin"
 
   LOG_CHANNEL: "stack"

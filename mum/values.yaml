@@ -58,7 +58,7 @@ dovecot:
     type: ClusterIP
   persistentVolumeClaim:
     name: dovecot-pv-claim
-    size: 20Gi
+    size: 1Gi
 
 ##
 ## MariaDB chart configuration
