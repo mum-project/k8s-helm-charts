@@ -21,9 +21,9 @@ mum:
     name: mum
     replicaCount: 1
     image:
-      repository: mum
+      repository: mumproject/mum
       tag: latest
-      pullPolicy: Never
+      pullPolicy: Allways
     container:
       port: 8080
   service:
@@ -36,9 +36,9 @@ postfix:
     name: postfix
     replicaCount: 1
     image:
-      repository: postfix
+      repository: mumproject/postfix
       tag: latest
-      pullPolicy: Never
+      pullPolicy: Allways
     container:
       hostname: "example.local"
   service:
@@ -50,9 +50,9 @@ dovecot:
     name: dovecot
     replicaCount: 1
     image:
-      repository: dovecot
+      repository: mumproject/dovecut
       tag: latest
-      pullPolicy: Never
+      pullPolicy: Allways
   service:
     name: dovecot
     type: LoadBalancer
