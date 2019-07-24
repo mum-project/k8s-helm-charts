@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: "{{ .Release.Name }}-{{ .Values.dovecot.service.name }}"
+  name: {{ include "dovecot.service.name" . | quote }}
   namespace: {{ .Values.namespace | quote }}
   labels:
 {{ include "mum.labels" . | indent 4 }}
@@ -12,5 +12,5 @@ spec:
       targetPort: {{ .Values.dovecot.deployment.container.port }}
       protocol: TCP
   selector:
-    app.kubernetes.io/name: "{{ .Release.Name }}-{{ .Values.dovecot.deployment.name }}"
+    app.kubernetes.io/name: {{ include "dovecot.deployment.name" . | quote }}
     app.kubernetes.io/instance: {{ .Release.Name }}

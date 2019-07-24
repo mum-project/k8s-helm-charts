@@ -42,3 +42,48 @@ app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end -}}
+
+{{/*
+Names and addresses of the deployments and services
+*/}}
+
+{{- define "mum.deployment.name" -}}
+{{- printf "%s-%s" .Release.Name .Values.mum.deployment.name -}}
+{{- end -}}
+
+{{- define "mum.service.name" -}}
+{{- printf "%s-%s" .Release.Name .Values.mum.service.name -}}
+{{- end -}}
+
+{{- define "mariadb.service.name" -}}
+{{- printf "%s-mariadb" .Release.Name -}}
+{{- end -}}
+
+{{- define "mariadb.service.address" -}}
+{{- printf "%s-mariadb.%s.svc.cluster.local" .Release.Name .Values.namespace -}}
+{{- end -}}
+
+{{- define "postfix.deployment.name" -}}
+{{- printf "%s-%s" .Release.Name .Values.postfix.deployment.name -}}
+{{- end -}}
+
+{{- define "postfix.service.name" -}}
+{{- printf "%s-%s" .Release.Name .Values.postfix.service.name -}}
+{{- end -}}
+
+{{- define "dovecot.deployment.name" -}}
+{{- printf "%s-%s" .Release.Name .Values.dovecot.deployment.name -}}
+{{- end -}}
+
+{{- define "dovecot.service.name" -}}
+{{- printf "%s-%s" .Release.Name .Values.dovecot.service.name -}}
+{{- end -}}
+
+{{- define "dovecot.service.address" -}}
+{{- printf "%s-%s.%s.svc.cluster.local" .Release.Name .Values.dovecot.service.name .Values.namespace -}}
+{{- end -}}
+
+{{- define "dovecot.pvc.name" -}}
+{{- printf "%s-%s" .Release.Name .Values.dovecot.persistentVolumeClaim.name -}}
+{{- end -}}
+

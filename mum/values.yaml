@@ -58,7 +58,7 @@ dovecot:
     container:
       port: 24
   service:
-    name: postfix
+    name: dovecot
     type: ClusterIP
     port: 24
   persistentVolumeClaim:

@@ -1,32 +1,32 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: "{{ .Release.Name }}-{{ .Values.mum.deployment.name }}"
+  name: {{ include "mum.deployment.name" . | quote }}
   namespace: {{ .Values.namespace | quote }}
   labels:
-    app.kubernetes.io/name: "{{ .Release.Name }}-{{ .Values.mum.deployment.name }}"
+    app.kubernetes.io/name: {{ include "mum.deployment.name" . | quote }}
 {{ include "mum.labels" . | indent 4 }}
 spec:
   replicas: {{ .Values.mum.deployment.replicaCount }}
   selector:
     matchLabels: 
-      app.kubernetes.io/name: "{{ .Release.Name }}-{{ .Values.mum.deployment.name }}"
+      app.kubernetes.io/name: {{ include "mum.deployment.name" . | quote }}
       app.kubernetes.io/instance: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: "{{ .Release.Name }}-{{ .Values.mum.deployment.name }}"
+        app.kubernetes.io/name: {{ include "mum.deployment.name" . | quote }}
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
       containers:
-      - name: "{{ .Release.Name }}-{{ .Values.mum.deployment.name }}"
+      - name: {{ include "mum.deployment.name" . | quote }}
         image: "{{ .Values.mum.deployment.image.repository }}:{{ .Values.mum.deployment.image.tag }}"
         imagePullPolicy: {{ .Values.mum.deployment.image.pullPolicy }}
         ports:
         - { name: http, containerPort: {{ .Values.mum.deployment.container.port }}, protocol: TCP }
         env:
         - { name: "APP_KEY", valueFrom: { secretKeyRef: { name: "mum-secret", key: "app-key" }} }
-        - { name: "DB_HOST", value: "{{ .Release.Name }}-mariadb.{{ .Values.namespace }}.svc.cluster.local" }
+        - { name: "DB_HOST", value: {{ include "mariadb.service.address" . | quote }} }
         - { name: "DB_DATABASE", value: {{ .Values.mariadb.db.name }} }
         - { name: "DB_USERNAME", value: {{ .Values.mariadb.db.user }} }
         - { name: "DB_PASSWORD", valueFrom: { secretKeyRef: { name: "db-secret", key: "mariadb-password" }} }

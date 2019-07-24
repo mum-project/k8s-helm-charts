@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: "{{ .Release.Name }}-{{ .Values.postfix.service.name }}"
+  name: {{ include "postfix.service.name" . | quote }}
   namespace: {{ .Values.namespace | quote }}
   labels:
 {{ include "mum.labels" . | indent 4 }}
@@ -12,5 +12,5 @@ spec:
       targetPort: {{ .Values.postfix.deployment.container.port }}
       protocol: TCP
   selector:
-    app.kubernetes.io/name: "{{ .Release.Name }}-{{ .Values.postfix.deployment.name }}"
+    app.kubernetes.io/name: {{ include "postfix.deployment.name" . | quote }}
     app.kubernetes.io/instance: {{ .Release.Name }}

@@ -1,31 +1,31 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: "{{ .Release.Name }}-{{ .Values.dovecot.deployment.name }}"
+  name: {{ include "dovecot.deployment.name" . | quote }}
   namespace: {{ .Values.namespace | quote }}
   labels:
-    app.kubernetes.io/name: "{{ .Release.Name }}-{{ .Values.dovecot.deployment.name }}"
+    app.kubernetes.io/name: {{ include "dovecot.deployment.name" . | quote }}
 {{ include "mum.labels" . | indent 4 }}
 spec:
   replicas: {{ .Values.dovecot.deployment.replicaCount }}
   selector:
     matchLabels: 
-      app.kubernetes.io/name: "{{ .Release.Name }}-{{ .Values.dovecot.deployment.name }}"
+      app.kubernetes.io/name: {{ include "dovecot.deployment.name" . | quote }}
       app.kubernetes.io/instance: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: "{{ .Release.Name }}-{{ .Values.dovecot.deployment.name }}"
+        app.kubernetes.io/name: {{ include "dovecot.deployment.name" . | quote }}
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
       containers:
-      - name: "{{ .Release.Name }}-{{ .Values.dovecot.deployment.name }}"
+      - name: {{ include "dovecot.deployment.name" . | quote }}
         image: "{{ .Values.dovecot.deployment.image.repository }}:{{ .Values.dovecot.deployment.image.tag }}"
         imagePullPolicy: {{ .Values.dovecot.deployment.image.pullPolicy }}
         ports:
         - { name: imap, containerPort: {{ .Values.dovecot.deployment.container.port }}, protocol: TCP }
         env:
-        - { name: "DB_HOST", value: "{{ .Release.Name }}-mariadb.{{ .Values.namespace }}.svc.cluster.local" }
+        - { name: "DB_HOST", value: {{ include "mariadb.service.address" . | quote }} }
         - { name: "DB_NAME", value: {{ .Values.mariadb.db.name }} }
         - { name: "DB_USER", value: {{ .Values.mariadb.db.user }} }
         - { name: "DB_PASSWORD", valueFrom: { secretKeyRef: { name: "db-secret", key: "mariadb-password" }} }
@@ -45,4 +45,4 @@ spec:
       volumes:
       - name: "mail-volume"
         persistentVolumeClaim:
-          claimName: "{{ .Release.Name }}-{{ .Values.dovecot.persistentVolumeClaim.name }}"
+          claimName: {{ include "dovecot.pvc.name" . | quote }}
