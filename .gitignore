@@ -1,2 +1,5 @@
 secrets.yaml
 config.yaml
+
+# Chart dependencies
+**/charts/*.tgz
