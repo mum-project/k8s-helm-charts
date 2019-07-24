@@ -4,17 +4,28 @@
 
 namespace: default
 
+########
+##
+## Ingress Configuration
+##
+
 ingress:
   enabled: true
   annotations:
     # nginx.ingress.kubernetes.io/ssl-redirect: "false"
     kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
-
   tls:
     - secretName: tls-secret
       hosts:
-      - "192.168.99.100"
+      - minikube.local
+  hosts:
+  - host: minikube.local
+
+########
+##
+## MUM Configuration
+##
 
 mum:
   deployment:
@@ -31,6 +42,11 @@ mum:
     type: ClusterIP
     port: 8080
 
+########
+##
+## Postfix Configuration
+##
+
 postfix:
   deployment:
     name: postfix
@@ -44,6 +60,11 @@ postfix:
   service:
     name: postfix
     type: LoadBalancer
+
+########
+##
+## Dovecot Configuration
+##
 
 dovecot:
   deployment:
@@ -63,39 +84,24 @@ dovecot:
     name: dovecot-pv-claim
     size: 1Gi
 
+
+########
 ##
-## MariaDB chart configuration
+## MariaDB Chart Configuration
 ##
 ## https://github.com/helm/charts/blob/master/stable/mariadb/values.yaml
 ##
+
 mariadb:
-  ## Whether to deploy a mariadb server to satisfy the applications database requirements. To use an external database set this to false and configure the externalDatabase parameters
   enabled: true
-  ## Disable MariaDB replication
   replication:
     enabled: false
-
   existingSecret: 'db-secret'
-  ## Create a database and a database user
-  ## ref: https://github.com/bitnami/bitnami-docker-mariadb/blob/master/README.md#creating-a-database-user-on-first-run
-  ##
   db:
     name: mum
     user: mum
-
-  ## Enable persistence using Persistent Volume Claims
-  ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
-  ##
   master:
     persistence:
       enabled: true
-      ## mariadb data Persistent Volume Storage Class
-      ## If defined, storageClassName: <storageClass>
-      ## If set to "-", storageClassName: "", which disables dynamic provisioning
-      ## If undefined (the default) or set to null, no storageClassName spec is
-      ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
-      ##   GKE, AWS & OpenStack)
-      ##
-      # storageClass: "-"
       accessMode: ReadWriteOnce
       size: 8Gi
