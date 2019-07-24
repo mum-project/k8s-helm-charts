@@ -79,6 +79,10 @@ Names and addresses of the deployments and services
 {{- printf "%s-%s" .Release.Name .Values.dovecot.service.name -}}
 {{- end -}}
 
+{{- define "dovecot.lmtpService.name" -}}
+{{- printf "%s-%s" .Release.Name .Values.dovecot.lmtpService.name -}}
+{{- end -}}
+
 {{- define "dovecot.service.address" -}}
 {{- printf "%s-%s.%s.svc.cluster.local" .Release.Name .Values.dovecot.service.name .Values.namespace -}}
 {{- end -}}

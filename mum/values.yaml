@@ -43,7 +43,7 @@ postfix:
       hostname: "example.local"
   service:
     name: postfix
-    type: ClusterIP
+    type: LoadBalancer
 
 dovecot:
   deployment:
@@ -55,6 +55,9 @@ dovecot:
       pullPolicy: Never
   service:
     name: dovecot
+    type: LoadBalancer
+  lmtpService:
+    name: dovecot-lmtp
     type: ClusterIP
   persistentVolumeClaim:
     name: dovecot-pv-claim
