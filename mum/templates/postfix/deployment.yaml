@@ -23,7 +23,9 @@ spec:
         image: "{{ .Values.postfix.deployment.image.repository }}:{{ .Values.postfix.deployment.image.tag }}"
         imagePullPolicy: {{ .Values.postfix.deployment.image.pullPolicy }}
         ports:
-        - { name: smtp, containerPort: {{ .Values.postfix.deployment.container.port }}, protocol: TCP }
+        - { name: smtpd, containerPort: 25, protocol: TCP }
+        - { name: smtpssl, containerPort: 465, protocol: TCP }
+        - { name: smtp, containerPort: 587, protocol: TCP }
         env:
         - { name: "HOSTNAME", value: {{ .Values.postfix.deployment.container.hostname }} }
         - { name: "DB_HOST", value: {{ include "mariadb.service.address" . | quote }} }
@@ -33,11 +35,11 @@ spec:
         - { name: "DOVECOT_HOST", value: {{ include "dovecot.service.address" . | quote }} }
         readinessProbe:
           tcpSocket:
-            port: smtp
+            port: smtpd
             initialDelaySeconds: 5
             periodSeconds: 10
         livenessProbe:
           tcpSocket:
-            port: smtp
+            port: smtpd
             initialDelaySeconds: 15
-            periodSeconds: 20
+            periodSeconds: 30

@@ -41,11 +41,9 @@ postfix:
       pullPolicy: Never
     container:
       hostname: "example.local"
-      port: 25
   service:
     name: postfix
     type: ClusterIP
-    port: 25
 
 dovecot:
   deployment:
@@ -55,12 +53,9 @@ dovecot:
       repository: dovecot
       tag: latest
       pullPolicy: Never
-    container:
-      port: 24
   service:
     name: dovecot
     type: ClusterIP
-    port: 24
   persistentVolumeClaim:
     name: dovecot-pv-claim
     size: 20Gi

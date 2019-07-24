@@ -8,9 +8,9 @@ metadata:
 spec:
   type: {{ .Values.postfix.service.type }}
   ports:
-    - port: {{ .Values.postfix.service.port }}
-      targetPort: {{ .Values.postfix.deployment.container.port }}
-      protocol: TCP
+  - { name: smtpd, port: 25, targetPort: 25, protocol: TCP }
+  - { name: smtpssl, port: 465, targetPort: 465, protocol: TCP }
+  - { name: smtp, port: 587, targetPort: 587, protocol: TCP }
   selector:
     app.kubernetes.io/name: {{ include "postfix.deployment.name" . | quote }}
     app.kubernetes.io/instance: {{ .Release.Name }}

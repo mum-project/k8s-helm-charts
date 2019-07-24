@@ -8,9 +8,12 @@ metadata:
 spec:
   type: {{ .Values.dovecot.service.type }}
   ports:
-    - port: {{ .Values.dovecot.service.port }}
-      targetPort: {{ .Values.dovecot.deployment.container.port }}
-      protocol: TCP
+  - { name: lmtp, port: 24, targetPort: 24, protocol: TCP }
+  - { name: pop3, port: 110, targetPort: 110, protocol: TCP }
+  - { name: imap, port: 143, targetPort: 143, protocol: TCP }
+  - { name: imapssl, port: 993, targetPort: 993, protocol: TCP }
+  - { name: pop3ssl, port: 995, targetPort: 995, protocol: TCP }
+  - { name: managesieve, port: 4190, targetPort: 4190, protocol: TCP }
   selector:
     app.kubernetes.io/name: {{ include "dovecot.deployment.name" . | quote }}
     app.kubernetes.io/instance: {{ .Release.Name }}

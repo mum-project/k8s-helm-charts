@@ -23,7 +23,12 @@ spec:
         image: "{{ .Values.dovecot.deployment.image.repository }}:{{ .Values.dovecot.deployment.image.tag }}"
         imagePullPolicy: {{ .Values.dovecot.deployment.image.pullPolicy }}
         ports:
-        - { name: imap, containerPort: {{ .Values.dovecot.deployment.container.port }}, protocol: TCP }
+        - { name: lmtp, containerPort: 24, protocol: TCP }
+        - { name: pop3, containerPort: 110, protocol: TCP }
+        - { name: imap, containerPort: 143, protocol: TCP }
+        - { name: imapssl, containerPort: 993, protocol: TCP }
+        - { name: pop3ssl, containerPort: 995, protocol: TCP }
+        - { name: managesieve, containerPort: 4190, protocol: TCP }
         env:
         - { name: "DB_HOST", value: {{ include "mariadb.service.address" . | quote }} }
         - { name: "DB_NAME", value: {{ .Values.mariadb.db.name }} }
@@ -41,7 +46,7 @@ spec:
           tcpSocket:
             port: imap
             initialDelaySeconds: 15
-            periodSeconds: 20
+            periodSeconds: 30
       volumes:
       - name: "mail-volume"
         persistentVolumeClaim:
