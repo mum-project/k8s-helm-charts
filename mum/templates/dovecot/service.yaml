@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: "{{ .Release.Name }}-dovecot-service"
+  namespace: {{ .Values.namespace | quote }}
+  labels:
+{{ include "mum.labels" . | indent 4 }}
+spec:
+  type: {{ .Values.dovecot.service.type }}
+  ports:
+    - port: {{ .Values.dovecot.service.port }}
+      targetPort: {{ .Values.dovecot.deployment.container.port }}
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: "{{ .Release.Name }}-dovecot-deployment"
+    app.kubernetes.io/instance: {{ .Release.Name }}

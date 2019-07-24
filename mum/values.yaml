@@ -47,6 +47,21 @@ postfix:
     type: ClusterIP
     port: 25
 
+dovecot:
+  deployment:
+    name: dovecot-deployment
+    replicaCount: 1
+    image:
+      repository: dovecot
+      tag: latest
+      pullPolicy: Never
+    container:
+      port: 24
+  service:
+    name: postfix-service
+    type: ClusterIP
+    port: 24
+
 ##
 ## MariaDB chart configuration
 ##
