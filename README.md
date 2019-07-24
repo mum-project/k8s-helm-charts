@@ -9,12 +9,12 @@ using these components:
 - [MariaDB](https://mariadb.org/)
 - [MUM](https://mum-project.github.io/docs/)
 
-## ️️⚠️ ATTENTION 🧨
+### ️️⚠️ ATTENTION 🧨
 
 This Helm chart is **not production-ready** and still under development.
 Please be aware that you may loose data if you use it productively.
 
-## Installation
+### Installation
 
 You can install this chart with minimal configuration effort.
 Just follow these easy steps:
@@ -78,7 +78,7 @@ kubectl apply -f config/secrets.yaml
 kubectl apply -f config/mum-config.yaml
 ```
 
-## Deployment
+### Deployment
 
 #### 1. Install the Helm-Charts in your Cluster
 
