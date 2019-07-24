@@ -29,14 +29,17 @@ spec:
         - { name: imapssl, containerPort: 993, protocol: TCP }
         - { name: pop3ssl, containerPort: 995, protocol: TCP }
         - { name: managesieve, containerPort: 4190, protocol: TCP }
+        - { name: saslauth, containerPort: 12345, protocol: TCP }
         env:
         - { name: "DB_HOST", value: {{ include "mariadb.service.address" . | quote }} }
         - { name: "DB_NAME", value: {{ .Values.mariadb.db.name }} }
         - { name: "DB_USER", value: {{ .Values.mariadb.db.user }} }
         - { name: "DB_PASSWORD", valueFrom: { secretKeyRef: { name: "db-secret", key: "mariadb-password" }} }
         volumeMounts:
-        - name: "mail-volume"
+        - name: mail-volume
           mountPath: /srv/mail
+        - name: tls-volume
+          mountPath: /srv/tls
         readinessProbe:
           tcpSocket:
             port: imap
@@ -48,6 +51,9 @@ spec:
           initialDelaySeconds: 15
           periodSeconds: 30
       volumes:
-      - name: "mail-volume"
+      - name: mail-volume
         persistentVolumeClaim:
           claimName: {{ include "dovecot.pvc.name" . | quote }}
+      - name: tls-volume
+        secret:
+          secretName: tls-secret

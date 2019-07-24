@@ -22,14 +22,15 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "dovecot.lmtpService.name" . | quote }}
+  name: {{ include "dovecot.internalService.name" . | quote }}
   namespace: {{ .Values.namespace | quote }}
   labels:
 {{ include "mum.labels" . | indent 4 }}
 spec:
-  type: {{ .Values.dovecot.service.type }}
+  type: {{ .Values.dovecot.internalService.type }}
   ports:
   - { name: lmtp, port: 24, targetPort: 24, protocol: TCP }
+  - { name: saslauth, port: 12345, targetPort: 12345, protocol: TCP }
   selector:
     app.kubernetes.io/name: {{ include "dovecot.deployment.name" . | quote }}
     app.kubernetes.io/instance: {{ .Release.Name }}

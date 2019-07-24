@@ -32,7 +32,10 @@ spec:
         - { name: "DB_NAME", value: {{ .Values.mariadb.db.name }} }
         - { name: "DB_USER", value: {{ .Values.mariadb.db.user }} }
         - { name: "DB_PASSWORD", valueFrom: { secretKeyRef: { name: "db-secret", key: "mariadb-password" }} }
-        - { name: "DOVECOT_HOST", value: {{ include "dovecot.service.address" . | quote }} }
+        - { name: "DOVECOT_HOST", value: {{ include "dovecot.internalService.address" . | quote }} }
+        volumeMounts:
+        - name: tls-volume
+          mountPath: /srv/tls
         readinessProbe:
           tcpSocket:
             port: smtpd
@@ -41,5 +44,9 @@ spec:
         livenessProbe:
           tcpSocket:
             port: smtpd
-          initialDelaySeconds: 15
+          initialDelaySeconds: 1
           periodSeconds: 30
+      volumes:
+      - name: tls-volume
+        secret:
+          secretName: tls-secret
