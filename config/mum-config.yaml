@@ -8,7 +8,7 @@ data:
   APP_NAME: "MUM"
   APP_ENV: "production"
   APP_DEBUG: "false"
-  APP_URL: "http://192.168.99.100"
+  APP_URL: "https://minikube.local"
   TIMEZONE: "Europe/Berlin"
 
   LOG_CHANNEL: "stack"

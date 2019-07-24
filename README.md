@@ -1,7 +1,7 @@
 # MUM Kubernetes Helm Chart
 
 This chart will deploy a complete email server setup to 
-[Kubernetes](https://kubernetes.io/) using [Helm-Charts](https://helm.sh/) 
+[Kubernetes](https://kubernetes.io/) with [Helm charts](https://helm.sh/) 
 using these components:
 
 - [Postfix](http://www.postfix.org/)
@@ -44,9 +44,12 @@ them in. This can be done with the following command:
 echo -n "secret value" | base64
 ```
 
-You'll want to generate the value for `app-key` with [Laravel's artisan]
-(https://laravel.com/docs/5.8/artisan) command. Make shure you will do this in 
-an Laravel environment. **Attention:** Don't forget to encode the value you get 
+You'll want to generate the value for `app-key` with 
+[Laravel's artisan](https://laravel.com/docs/5.8/artisan) command. Be aware that
+`artisan` is just a PHP file, so you'll have to execute the command in a Laravel
+installation. 
+
+**Attention:** Don't forget to encode the value you get 
 in base64, even though part of the result already is a base64-encoded string.
 
 ```bash
@@ -58,7 +61,7 @@ php artisan key:generate
 This one is easy. Just go in [config/mum-config.yaml](config/mum-config.yaml) 
 and change any parameters you want to. For all configuration options you can 
 take a look at the 
-[MUM-Documentation](https://mum-project.github.io/docs/configuration-options/)
+[MUM documentation](https://mum-project.github.io/docs/configuration-options/).
 
 #### 4. Change Chart Values
 
@@ -71,11 +74,12 @@ Next, you need to tell your Kubernetes about the secrets and environment
 variables you just configured. To do that, execute:
 
 ```bash
-kubectl apply -f secrets.yaml
-kubectl apply -f mum-config.yaml
+kubectl apply -f config/secrets.yaml
+kubectl apply -f config/mum-config.yaml
 ```
 
 ## Deployment
+
 #### 1. Install the Helm-Charts in your Cluster
 
 In this final step, you will install the actual components of the chart:
@@ -83,7 +87,7 @@ In this final step, you will install the actual components of the chart:
 ```bash
 helm install .
 ```
-For more information view [Helm](https://helm.sh/) and 
+For more information have a look at the websites of [Helm](https://helm.sh/) and 
 [Kubernetes](https://kubernetes.io/).
 
 #### 2. Upgrade your Cluster
