@@ -18,7 +18,15 @@ Please be aware that you may loose data if you use it productively.
 You can install this chart with minimal configuration effort.
 Just follow these easy steps:
 
-#### 1. Adjust Secrets
+#### 1. Download Dependencies
+
+MariaDB is pulled in as a chart dependency. We need to install it with:
+
+```bash
+helm dep build .
+```
+
+#### 2. Adjust Secrets
 
 Copy the file [secrets.yaml.example](secrets.yaml.example) and name it
 `secrets.yaml`. Next, fill all neccessary fields with values that make sense
@@ -37,17 +45,17 @@ part of the result already is a base64-encoded string.
 php artisan key:generate
 ```
 
-#### 2. Adjust Environment Variables
+#### 3. Adjust Environment Variables
 
 This one is easy. Just go in [mum-config.yaml](mum-config.yaml) and change any
 parameters you want to.
 
-#### 3. Change Chart Values
+#### 4. Change Chart Values
 
 If you want to change any values of the Helm chart, you may do that in the file
 [values.yaml](values.yaml).
 
-#### 4. Apply Secrets and ConfigMap
+#### 5. Apply Secrets and ConfigMap
 
 Next, you need to tell your Kubernetes about the secrets and environment 
 variables you just configured. To do that, execute:
@@ -57,7 +65,7 @@ kubectl apply -f secrets.yaml
 kubectl apply -f mum-config.yaml
 ```
 
-#### 5. Install the Chart
+#### 6. Install the Chart
 
 In this final step, you will install the actual components of the chart:
 
