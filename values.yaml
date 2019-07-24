@@ -23,7 +23,7 @@ mum:
     image:
       repository: mumproject/mum
       tag: latest
-      pullPolicy: Allways
+      pullPolicy: Always
     container:
       port: 8080
   service:
@@ -38,7 +38,7 @@ postfix:
     image:
       repository: mumproject/postfix
       tag: latest
-      pullPolicy: Allways
+      pullPolicy: Always
     container:
       hostname: "example.local"
   service:
@@ -50,9 +50,9 @@ dovecot:
     name: dovecot
     replicaCount: 1
     image:
-      repository: mumproject/dovecut
+      repository: mumproject/dovecot
       tag: latest
-      pullPolicy: Allways
+      pullPolicy: Always
   service:
     name: dovecot
     type: LoadBalancer
