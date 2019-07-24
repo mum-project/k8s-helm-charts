@@ -1,0 +1,98 @@
+# Default values for mum.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+namespace: default
+
+ingress:
+  enabled: true
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+mum:
+  deployment:
+    name: mum
+    replicaCount: 1
+    image:
+      repository: mum
+      tag: latest
+      pullPolicy: Never
+    container:
+      port: 8080
+  service:
+    name: mum
+    type: ClusterIP
+    port: 8080
+
+postfix:
+  deployment:
+    name: postfix
+    replicaCount: 1
+    image:
+      repository: postfix
+      tag: latest
+      pullPolicy: Never
+    container:
+      hostname: "example.local"
+  service:
+    name: postfix
+    type: ClusterIP
+
+dovecot:
+  deployment:
+    name: dovecot
+    replicaCount: 1
+    image:
+      repository: dovecot
+      tag: latest
+      pullPolicy: Never
+  service:
+    name: dovecot
+    type: ClusterIP
+  persistentVolumeClaim:
+    name: dovecot-pv-claim
+    size: 1Gi
+
+##
+## MariaDB chart configuration
+##
+## https://github.com/helm/charts/blob/master/stable/mariadb/values.yaml
+##
+mariadb:
+  ## Whether to deploy a mariadb server to satisfy the applications database requirements. To use an external database set this to false and configure the externalDatabase parameters
+  enabled: true
+  ## Disable MariaDB replication
+  replication:
+    enabled: false
+
+  existingSecret: 'db-secret'
+  ## Create a database and a database user
+  ## ref: https://github.com/bitnami/bitnami-docker-mariadb/blob/master/README.md#creating-a-database-user-on-first-run
+  ##
+  db:
+    name: mum
+    user: mum
+
+  ## Enable persistence using Persistent Volume Claims
+  ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
+  ##
+  master:
+    persistence:
+      enabled: true
+      ## mariadb data Persistent Volume Storage Class
+      ## If defined, storageClassName: <storageClass>
+      ## If set to "-", storageClassName: "", which disables dynamic provisioning
+      ## If undefined (the default) or set to null, no storageClassName spec is
+      ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
+      ##   GKE, AWS & OpenStack)
+      ##
+      # storageClass: "-"
+      accessMode: ReadWriteOnce
+      size: 8Gi
