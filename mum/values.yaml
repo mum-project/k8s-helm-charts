@@ -18,7 +18,7 @@ ingress:
 
 mum:
   deployment:
-    name: mum-deployment
+    name: mum
     replicaCount: 1
     image:
       repository: mum
@@ -27,13 +27,13 @@ mum:
     container:
       port: 8080
   service:
-    name: mum-service
+    name: mum
     type: ClusterIP
     port: 8080
 
 postfix:
   deployment:
-    name: postfix-deployment
+    name: postfix
     replicaCount: 1
     image:
       repository: postfix
@@ -43,13 +43,13 @@ postfix:
       hostname: "example.local"
       port: 25
   service:
-    name: postfix-service
+    name: postfix
     type: ClusterIP
     port: 25
 
 dovecot:
   deployment:
-    name: dovecot-deployment
+    name: dovecot
     replicaCount: 1
     image:
       repository: dovecot
@@ -58,10 +58,11 @@ dovecot:
     container:
       port: 24
   service:
-    name: postfix-service
+    name: postfix
     type: ClusterIP
     port: 24
   persistentVolumeClaim:
+    name: dovecot-pv-claim
     size: 20Gi
 
 ##

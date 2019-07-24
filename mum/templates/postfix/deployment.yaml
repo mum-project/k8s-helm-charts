@@ -1,36 +1,36 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: "{{ .Release.Name }}-postfix-deployment"
+  name: "{{ .Release.Name }}-{{ .Values.postfix.deployment.name }}"
   namespace: {{ .Values.namespace | quote }}
   labels:
-    app.kubernetes.io/name: "{{ .Release.Name }}-postfix-deployment"
+    app.kubernetes.io/name: "{{ .Release.Name }}-{{ .Values.postfix.deployment.name }}"
 {{ include "mum.labels" . | indent 4 }}
 spec:
   replicas: {{ .Values.postfix.deployment.replicaCount }}
   selector:
     matchLabels: 
-      app.kubernetes.io/name: "{{ .Release.Name }}-postfix-deployment"
+      app.kubernetes.io/name: "{{ .Release.Name }}-{{ .Values.postfix.deployment.name }}"
       app.kubernetes.io/instance: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: "{{ .Release.Name }}-postfix-deployment"
+        app.kubernetes.io/name: "{{ .Release.Name }}-{{ .Values.postfix.deployment.name }}"
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
       containers:
-      - name: "{{ .Release.Name }}-postfix-deployment"
+      - name: "{{ .Release.Name }}-{{ .Values.postfix.deployment.name }}"
         image: "{{ .Values.postfix.deployment.image.repository }}:{{ .Values.postfix.deployment.image.tag }}"
         imagePullPolicy: {{ .Values.postfix.deployment.image.pullPolicy }}
         ports:
         - { name: smtp, containerPort: {{ .Values.postfix.deployment.container.port }}, protocol: TCP }
         env:
         - { name: "HOSTNAME", value: {{ .Values.postfix.deployment.container.hostname }} }
-        - { name: "DB_HOST", value: {{ printf "%s-%s" .Release.Name "mariadb" }} }
+        - { name: "DB_HOST", value: "{{ .Release.Name }}-mariadb.{{ .Values.namespace }}.svc.cluster.local" }
         - { name: "DB_NAME", value: {{ .Values.mariadb.db.name }} }
         - { name: "DB_USER", value: {{ .Values.mariadb.db.user }} }
         - { name: "DB_PASSWORD", valueFrom: { secretKeyRef: { name: "db-secret", key: "mariadb-password" }} }
-        - { name: "DOVECOT_HOST", value: {{ printf "%s-%s" .Release.Name "dovecot-service.default.svc.cluster.local" }} }
+        - { name: "DOVECOT_HOST", value: "{{ .Release.Name }}-{{ .Values.dovecot.service.name }}.{{ .Values.namespace }}.svc.cluster.local" }
         readinessProbe:
           tcpSocket:
             port: smtp

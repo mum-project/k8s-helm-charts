@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: "{{ .Release.Name }}-mum-service"
+  name: "{{ .Release.Name }}-{{ .Values.mum.service.name }}"
   namespace: {{ .Values.namespace | quote }}
   labels:
 {{ include "mum.labels" . | indent 4 }}
@@ -12,5 +12,5 @@ spec:
       targetPort: {{ .Values.mum.deployment.container.port }}
       protocol: TCP
   selector:
-    app.kubernetes.io/name: "{{ .Release.Name }}-mum-deployment"
+    app.kubernetes.io/name: "{{ .Release.Name }}-{{ .Values.mum.deployment.name }}"
     app.kubernetes.io/instance: {{ .Release.Name }}

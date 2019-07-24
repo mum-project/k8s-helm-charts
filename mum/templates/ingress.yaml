@@ -26,6 +26,6 @@ spec:
         paths:
           - path: "/"
             backend:
-              serviceName: "{{ .Release.Name }}-mum-service"
+              serviceName: "{{ .Release.Name }}-mum"
               servicePort: {{ .Values.mum.service.port }}
 {{- end }}
