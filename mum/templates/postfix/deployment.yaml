@@ -30,7 +30,7 @@ spec:
         - { name: "DB_NAME", value: {{ .Values.mariadb.db.name }} }
         - { name: "DB_USER", value: {{ .Values.mariadb.db.user }} }
         - { name: "DB_PASSWORD", valueFrom: { secretKeyRef: { name: "db-secret", key: "mariadb-password" }} }
-        - { name: "DOVECOT_HOST", value: {{ printf "%s-%s" .Release.Name "dovecot-service" }} }
+        - { name: "DOVECOT_HOST", value: {{ printf "%s-%s" .Release.Name "dovecot-service.default.svc.cluster.local" }} }
         readinessProbe:
           tcpSocket:
             port: smtp

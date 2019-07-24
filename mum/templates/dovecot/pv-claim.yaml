@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: "{{ .Release.Name }}-dovecot-pv-claim"
+  namespace: {{ .Values.namespace | quote }}
+  annotations:
+    pv.beta.kubernetes.io/gid: "5000"
+  labels:
+    app.kubernetes.io/name: "{{ .Release.Name }}-dovecot-pv-claim"
+{{ include "mum.labels" . | indent 4 }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.dovecot.persistentVolumeClaim.size }}

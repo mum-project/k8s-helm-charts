@@ -29,6 +29,9 @@ spec:
         - { name: "DB_NAME", value: {{ .Values.mariadb.db.name }} }
         - { name: "DB_USER", value: {{ .Values.mariadb.db.user }} }
         - { name: "DB_PASSWORD", valueFrom: { secretKeyRef: { name: "db-secret", key: "mariadb-password" }} }
+        volumeMounts:
+        - name: "mail-volume"
+          mountPath: /srv/mail
         readinessProbe:
           tcpSocket:
             port: imap
@@ -39,3 +42,7 @@ spec:
             port: imap
             initialDelaySeconds: 15
             periodSeconds: 20
+      volumes:
+      - name: "mail-volume"
+        persistentVolumeClaim:
+          claimName: "{{ .Release.Name }}-dovecot-pv-claim"
