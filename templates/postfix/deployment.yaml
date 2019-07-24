@@ -36,10 +36,10 @@ spec:
         readinessProbe:
           tcpSocket:
             port: smtpd
-            initialDelaySeconds: 5
-            periodSeconds: 10
+          initialDelaySeconds: 5
+          periodSeconds: 10
         livenessProbe:
           tcpSocket:
             port: smtpd
-            initialDelaySeconds: 15
-            periodSeconds: 30
+          initialDelaySeconds: 15
+          periodSeconds: 30

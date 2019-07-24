@@ -40,13 +40,13 @@ spec:
         readinessProbe:
           tcpSocket:
             port: imap
-            initialDelaySeconds: 5
-            periodSeconds: 10
+          initialDelaySeconds: 5
+          periodSeconds: 10
         livenessProbe:
           tcpSocket:
             port: imap
-            initialDelaySeconds: 15
-            periodSeconds: 30
+          initialDelaySeconds: 15
+          periodSeconds: 30
       volumes:
       - name: "mail-volume"
         persistentVolumeClaim:
