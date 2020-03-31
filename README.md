@@ -11,7 +11,7 @@ using these components:
 
 ### ️️⚠️ ATTENTION 🧨
 
-This Helm chart is **not production-ready** and still under development.
+This Helm chart is **not production-ready** and **NOT ACTIVELY MAINTAINED**.
 Please be aware that you may loose data if you use it productively.
 
 ### Installation
