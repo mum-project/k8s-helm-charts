@@ -3,3 +3,8 @@ appVersion: "1.0"
 description: A Helm chart for Kubernetes
 name: mum
 version: 0.1.0
+dependencies:
+    - name: mariadb
+      version: 6.x.x
+      repository: "https://kubernetes-charts.storage.googleapis.com"
+      condition: mariadb.enabled
