@@ -61,7 +61,7 @@ php artisan key:generate
 This one is easy. Just go in [config/mum-config.yaml](config/mum-config.yaml) 
 and change any parameters you want to. For all configuration options you can 
 take a look at the 
-[MUM documentation](https://mum-project.github.io/docs/configuration-options/).
+[MUM documentation](https://mum-project.github.io/configuration-options/).
 
 #### 4. Change Chart Values
 
