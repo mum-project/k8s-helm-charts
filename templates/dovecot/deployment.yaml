@@ -8,6 +8,8 @@ metadata:
 {{ include "mum.labels" . | indent 4 }}
 spec:
   replicas: {{ .Values.dovecot.deployment.replicaCount }}
+  strategy:
+    type: Recreate
   selector:
     matchLabels: 
       app.kubernetes.io/name: {{ include "dovecot.deployment.name" . | quote }}
